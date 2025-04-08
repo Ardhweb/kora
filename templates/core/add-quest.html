@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Kora | Add New Question{% endblock title %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <!-- Big Heading -->
+    
+    
+    <h2 class="mt-4 mb-4 text-center">Post a question</h2>
+    <p class="text-center">Ask and write your thought , doubts and related topic.</p>
+    
+    <form method="post" class="p-4 border rounded shadow bg-light">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+    </form>
+</div>
+{% endblock content %}

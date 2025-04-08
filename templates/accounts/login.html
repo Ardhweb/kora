@@ -1,0 +1,19 @@
+{% extends "accounts/base.html" %}
+{% block title %}Kora | Login{% endblock title %}
+{% block content %}
+<div class="bg-primary shadow p-3 mb-5 mt-3 bg-body rounded " style="width: 350px; height: auto; margin: 0 auto  ; ">
+    <h3 class="text-center"> Login</h3>
+    <p class="fs-6 text text-center font-weight-light text-white">Get 
+        Fine Your Answers Here</p>
+
+</div>
+
+<!--Login Form Start Here-->
+<form method="post" class="text-center bg-light  shadow p-3 mb-5 bg-body rounded" style="width: 350px; height: 25%; margin: 0 auto ; margin-top:10%;">
+{{ form.as_p }}
+{% csrf_token %}
+<p><input type="submit" class="btn btn-primary btn-lg btn-block rounded-0" value="Log in"></p>
+</form>
+
+<a href="{% url "accounts:sign_up" %}" class='text-center p-4 text-reset  container'>Sign Up</a>
+{% endblock content %}

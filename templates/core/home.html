@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Kora | Home {% endblock title %}
+
+{% block content %}
+<div class="container m-3">
+    {% if request.user.is_authenticated %}
+    <div class="card">
+        <div class="card-header bg-success text-white">
+            Your Questions
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                {% for question in request.user.user_questions.all  %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>{{question.title}}</span>
+                    <a href="{% url "core:question_detail" id=question.id %}" class="btn btn-outline-success btn-sm">View</a>
+                </li>
+                {% endfor %}
+               
+            </ul>
+        </div>
+    </div>
+    {% else %}
+
+    {% endif %}
+
+
+
+</div>
+
+
+<div class="d-flex flex-column container">
+    <h3>View questions posted by others </h3>
+    {% for question in questions  %}
+    <div class="card my-2" style="width: 50rem;">
+        <a class="text-reset text-decoration-none" href="{% url "core:question_detail" id=question.id %}">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{question.title}}</h5>
+          <p class="card-text">{{question.content}}</p>
+        </div>
+        </a>
+       
+    </div>
+    {% endfor %}
+
+</div>
+
+
+
+
+{% endblock content %}

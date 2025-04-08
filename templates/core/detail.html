@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Kora | Question{% endblock title %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <!-- Big Heading -->
+    
+    
+    <h2 class="mt-4 mb-4 ">{{question.title}}</h2>
+    <p>{{question.content}}</p>
+    <div class="card border-0">
+        <div class="card-header">
+            Comments
+        </div>
+        <div class="card-body">
+          
+
+            <div class="list-group">
+                {% for answer in answers %}
+                <div class="list-group-item">
+                    <small class="text-muted">Answered by <strong>{{ answer.user.username }}</strong></small>
+                    <p class="mb-2">{{ answer.content }}</p>
+                    <!-- Like Form -->
+                   
+                    <button class="btn btn-outline-primary btn-sm like-btn" data-answer-id="{{ answer.id }}">
+                        👍 <span id="likes-count-{{ answer.id }}"> {{ answer.likes}}</span>
+                    </button>
+                   
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+    <form class="row g-2 align-items-center p-2" method='POST'>
+        <!-- Username Input (Left) -->
+        <div class="col-auto">
+            <img src="https://placehold.co/50?text=Hello+World&font=roboto" class="border rounded-circle" alt="User Image">
+        </div>
+
+        <!-- Largest Input Field (Middle) -->
+        <div class="col">
+          
+           {{form.as_p}}
+           {% csrf_token %}
+        </div>
+
+        <!-- Submit Button (Right) -->
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary rounded-pill">Add Comment</button>
+        </div>
+    </form>
+  
+</div>
+
+
+<script>
+    document.querySelectorAll('.like-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            let answerId = this.getAttribute('data-answer-id');
+            let likesCountElement = document.getElementById(`likes-count-${answerId}`);
+            
+            fetch(`http://127.0.0.1:8000/likes-answer/${answerId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                likesCountElement.textContent = data.likes;
+            });
+        });
+    });
+</script>
+{% endblock content %}
